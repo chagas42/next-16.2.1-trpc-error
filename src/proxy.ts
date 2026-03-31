@@ -1,8 +1,8 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
 import { geolocation } from "@vercel/functions";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-export default clerkMiddleware(async (_getAuth, req) => {
+export default function middleware(req: NextRequest) {
   const requestHeaders = new Headers(req.headers);
 
   const { country } = geolocation(req);
@@ -15,7 +15,7 @@ export default clerkMiddleware(async (_getAuth, req) => {
       headers: requestHeaders,
     },
   });
-});
+}
 
 export const config = {
   matcher: [
